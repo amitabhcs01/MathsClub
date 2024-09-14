@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maths Riddle - 3x3 Magic Square Puzzle</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', sans-serif;
+            background-color: #e9ecef;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            color: #343a40;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        table {
+            border-collapse: collapse;
+            margin: 0 auto;
+            margin-bottom: 20px;
+        }
+
+        td {
+            width: 60px;
+            height: 60px;
+            border: 2px solid #6c757d;
+            border-radius: 10px;
+        }
+
+        input {
+            width: 58px;
+            height: 58px;
+            text-align: center;
+            font-size: 24px;
+            background-color: #f8f9fa;
+            border: none;
+            border-radius: 8px;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        input:focus {
+            outline: none;
+            box-shadow: 0 0 8px rgba(0, 123, 255, 0.6);
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            font-size: 18px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #495057;
+        }
+
+        .result.success {
+            color: #28a745;
+        }
+
+        .result.error {
+            color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Maths Riddle</h1>
+        <table>
+            <tr>
+                <td><input type="number" id="cell1" min="1" max="9"></td>
+                <td><input type="number" id="cell2" min="1" max="9"></td>
+                <td><input type="number" id="cell3" min="1" max="9"></td>
+            </tr>
+            <tr>
+                <td><input type="number" id="cell4" min="1" max="9"></td>
+                <td><input type="number" id="cell5" min="1" max="9"></td>
+                <td><input type="number" id="cell6" min="1" max="9"></td>
+            </tr>
+            <tr>
+                <td><input type="number" id="cell7" min="1" max="9"></td>
+                <td><input type="number" id="cell8" min="1" max="9"></td>
+                <td><input type="number" id="cell9" min="1" max="9"></td>
+            </tr>
+        </table>
+        <button onclick="checkMagicSquare()">Check Magic Square</button>
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        function checkMagicSquare() {
+            // Get values from the input fields
+            let cells = [];
+            for (let i = 1; i <= 9; i++) {
+                cells.push(parseInt(document.getElementById(`cell${i}`).value) || 0);
+            }
+
+            // Check if all numbers from 1 to 9 are present
+            let uniqueNumbers = new Set(cells);
+            if (uniqueNumbers.size !== 9 || Array.from(uniqueNumbers).some(n => n < 1 || n > 9)) {
+                document.getElementById('result').innerText = "Please enter distinct numbers from 1 to 9.";
+                document.getElementById('result').className = "result error";
+                return;
+            }
+
+            // Sum of each row, column, and diagonal
+            let sum1 = cells[0] + cells[1] + cells[2];
+            let sum2 = cells[3] + cells[4] + cells[5];
+            let sum3 = cells[6] + cells[7] + cells[8];
+            let sum4 = cells[0] + cells[3] + cells[6];
+            let sum5 = cells[1] + cells[4] + cells[7];
+            let sum6 = cells[2] + cells[5] + cells[8];
+            let sum7 = cells[0] + cells[4] + cells[8];
+            let sum8 = cells[2] + cells[4] + cells[6];
+
+            // Check if all sums are equal
+            if (sum1 === sum2 && sum2 === sum3 && sum3 === sum4 && sum4 === sum5 && sum5 === sum6 && sum6 === sum7 && sum7 === sum8) {
+                document.getElementById('result').innerText = "Congratulations! It's a magic square!";
+                document.getElementById('result').className = "result success";
+            } else {
+                document.getElementById('result').innerText = "Not a magic square. Try again.";
+                document.getElementById('result').className = "result error";
+            }
+        }
+    </script>
+</body>
+</html>
